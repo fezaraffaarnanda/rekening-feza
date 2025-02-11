@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekening Aktif</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tambahkan SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        /* Modal QRIS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #666;
+        }
+        
+        .qris-image {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0}
+            to {opacity: 1}
+        }
+        
+        @keyframes slideIn {
+            from {transform: translateY(-100px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+        body {
+            background-color: #34495e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .account-block {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .account-block:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        .account-block img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            object-fit: contain;
+            padding: 5px;
+        }
+        .account-block img svg {
+            width: 100%;
+            height: 100%;
+        }
+        .account-info {
+            font-size: 14px;
+        }
+        .account-info p {
+            margin: 0;
+            padding: 2px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #34495e;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-3">FEZA RAFFA ARNANDA</h1>
+        <p class="text-center mb-4">Rekening Aktif Feza</p>
+        <div class="account-block qris-block" onclick="showQRIS()">
+            <img src="img\Logo_QRIS.svg" alt="QRIS Logo">
+            <div class="account-info">
+                <p>QRIS</p>
+                <p>Klik untuk melihat QR Code</p>
+            </div>
+        </div>
+        <div class="account-block" onclick="copyToClipboard('0471904731', 'BCA')">
+            <img src="img\Bank_Central_Asia.svg" alt="BCA Logo">
+            <div class="account-info">
+                <p>FEZA RAFFA ARNANDA</p>
+                <p id="bca-account">0471904731</p>
+            </div>
+        </div>
+        
+        <div class="account-block" onclick="copyToClipboard('9805518250', 'BSI')">
+            <img src="img\Bank_Syariah_Indonesia.svg" alt="BSI Logo">
+            <div class="account-info">
+                <p>FEZA RAFFA ARNANDA</p>
+                <p id="bsi-account">9805518250</p>
+            </div>
+        </div>
+        <div class="account-block" onclick="copyToClipboard('081325462569', 'Wallet')">
+            <img src="img\Logo_Gopay.svg" alt="E-Wallet Logo">
+            <div class="account-info">
+                <p>Gopay/Shopeepay/Dana</p>
+                <p id="gopay-account">081325462569</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Created by <a href="#">Feza</a></p>
+        </div>
+    </div>
+
+    <!-- Modal QRIS -->
+    <div id="qrisModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeQRIS()">&times;</span>
+            <h2 class="text-center mb-3">QRIS Feza</h2>
+            <img src="qris zetttt.jpg" alt="QRIS Code" class="qris-image">
+        </div>
+    </div>
+
+    <!-- Tambahkan SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Modal QRIS functions
+        function showQRIS() {
+            document.getElementById('qrisModal').style.display = 'block';
+        }
+        
+        function closeQRIS() {
+            document.getElementById('qrisModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('qrisModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function copyToClipboard(number, bank) {
+            navigator.clipboard.writeText(number).then(() => {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: `Nomor rekening ${bank} berhasil disalin: ${number}`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    position: 'top',
+                    toast: true
+                });
+            }).catch(() => {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Tidak dapat menyalin nomor rekening',
+                    icon: 'error',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    position: 'top',
+                    toast: true
+                });
+            });
+        }
+    </script>
+</body>
+</html>
