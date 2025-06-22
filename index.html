@@ -1,215 +1,608 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekening Aktif</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tambahkan SweetAlert2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rekening Feza</title>
     <style>
-        /* Modal QRIS */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            animation: fadeIn 0.3s;
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-            position: relative;
-            animation: slideIn 0.3s;
-        }
-        
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .close:hover {
-            color: #666;
-        }
-        
-        .qris-image {
-            width: 100%;
-            max-width: 300px;
-            margin: 20px auto;
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from {opacity: 0}
-            to {opacity: 1}
-        }
-        
-        @keyframes slideIn {
-            from {transform: translateY(-100px); opacity: 0;}
-            to {transform: translateY(0); opacity: 1;}
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 24px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 12px;
+      }
+
+      .header .subtitle {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        50% {
+          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.5);
+        }
+        100% {
+          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+      }
+
+      .copy-icon {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+      }
+
+      .account-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .account-item {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .account-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .account-item:active {
+        transform: translateY(0);
+      }
+
+      .account-item.copyable::after {
+        content: "";
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 6px;
+        height: 6px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: blink 2s infinite;
+      }
+
+      .account-item.qris-item::after {
+        background: #3b82f6;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      .account-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 16px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f7fafc;
+        border-radius: 10px;
+      }
+
+      .account-icon img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      .account-info {
+        flex: 1;
+      }
+
+      .account-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 4px;
+      }
+
+      .account-number {
+        font-size: 13px;
+        color: #718096;
+        font-family: "SF Mono", Monaco, monospace;
+        margin-bottom: 4px;
+      }
+
+      .copy-hint {
+        font-size: 11px;
+        color: #10b981;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        opacity: 0.8;
+      }
+
+      .qris-hint {
+        color: #3b82f6;
+      }
+
+      .action-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: 12px;
+        opacity: 0.5;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+
+      .account-item:hover .action-icon {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+
+      .copy-icon-action {
+        fill: #10b981;
+      }
+
+      .qr-icon-action {
+        fill: #3b82f6;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 12px;
+        color: #a0aec0;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-content {
+        background: white;
+        margin: 10% auto;
+        padding: 24px;
+        width: 90%;
+        max-width: 350px;
+        border-radius: 20px;
+        position: relative;
+        animation: modalSlide 0.3s ease;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2d3748;
+      }
+
+      .close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #a0aec0;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+
+      .close:hover {
+        background: #f7fafc;
+        color: #4a5568;
+      }
+
+      .qris-image {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn {
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn:hover {
+        background: #5a67d8;
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: #e2e8f0;
+        color: #4a5568;
+      }
+
+      .btn-secondary:hover {
+        background: #cbd5e0;
+      }
+
+      @keyframes modalSlide {
+        from {
+          opacity: 0;
+          transform: translateY(-50px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Toast notification */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 14px;
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+        animation: toastSlide 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .toast.success {
+        background: rgba(16, 185, 129, 0.9);
+      }
+
+      @keyframes toastSlide {
+        from {
+          opacity: 0;
+          transform: translate(-50%, 100px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
         body {
-            background-color: #34495e;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+          padding: 16px 12px;
         }
+
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
+          padding: 20px;
         }
-        .account-block {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+
+        .header h1 {
+          font-size: 20px;
         }
-        .account-block:hover {
-            background-color: #f8f9fa;
-            transform: translateY(-2px);
+
+        .modal-content {
+          margin: 20% auto;
+          padding: 20px;
         }
-        .account-block img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-            object-fit: contain;
-            padding: 5px;
-        }
-        .account-block img svg {
-            width: 100%;
-            height: 100%;
-        }
-        .account-info {
-            font-size: 14px;
-        }
-        .account-info p {
-            margin: 0;
-            padding: 2px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .footer a {
-            color: #34495e;
-            text-decoration: none;
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1 class="text-center mb-3">FEZA RAFFA ARNANDA</h1>
-        <p class="text-center mb-4">Rekening Aktif Feza, klik salah satu akun untuk Copy nomor rekening</p>
-        <div class="account-block qris-block" onclick="showQRIS()">
-            <img src="img\Logo_QRIS.svg" alt="QRIS Logo">
-            <div class="account-info">
-                <p>QRIS</p>
-                <p>Klik untuk melihat QR Code</p>
+      <div class="header">
+        <h1>List Rekening Feza</h1>
+        <div class="subtitle">
+          <svg class="copy-icon" viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+            />
+          </svg>
+          Tap untuk copy nomor rekening
+        </div>
+      </div>
+
+      <div class="account-list">
+        <div class="account-item qris-item" onclick="showQRIS()">
+          <div class="account-icon">
+            <img src="img/Logo_QRIS.svg" alt="QRIS" />
+          </div>
+          <div class="account-info">
+            <div class="account-name">QRIS Payment</div>
+            <div class="account-number">Tap untuk lihat/download QR Code</div>
+            <div class="copy-hint qris-hint">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path
+                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                />
+              </svg>
+              Tap untuk akses QR
             </div>
+          </div>
+          <svg class="action-icon qr-icon-action" viewBox="0 0 24 24">
+            <path
+              d="M3 11h8V3H3v8zm2-6h4v4H5V5zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4z"
+            />
+            <path
+              d="M18 13h-2v2h2v-2zM20 15h-2v2h2v-2zM16 15h-2v2h2v-2zM18 17h-2v2h2v-2zM20 19h-2v2h2v-2z"
+            />
+          </svg>
         </div>
-        <div class="account-block" onclick="copyToClipboard('0471904731', 'BCA')">
-            <img src="img\Bank_Central_Asia.svg" alt="BCA Logo">
-            <div class="account-info">
-                <p>BANK CENTRAL ASIA (BCA)</p>
-                <p id="bca-account">0471904731</p>
+
+        <div
+          class="account-item copyable"
+          onclick="copyToClipboard('0471904731', 'BCA')"
+        >
+          <div class="account-icon">
+            <img src="img/Bank_Central_Asia.svg" alt="BCA" />
+          </div>
+          <div class="account-info">
+            <div class="account-name">Bank Central Asia</div>
+            <div class="account-number">0471904731</div>
+            <div class="copy-hint">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                />
+              </svg>
+              Tap untuk copy
             </div>
+          </div>
+          <svg class="action-icon copy-icon-action" viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+            />
+          </svg>
         </div>
-        
-        <div class="account-block" onclick="copyToClipboard('9805518250', 'BSI')">
-            <img src="img\Bank_Syariah_Indonesia.svg" alt="BSI Logo">
-            <div class="account-info">
-                <p>BANK SYARIAH INDONESIA (BSI)</p>
-                <p id="bsi-account">9805518250</p>
+
+        <div
+          class="account-item copyable"
+          onclick="copyToClipboard('9805518250', 'BSI')"
+        >
+          <div class="account-icon">
+            <img src="img/Bank_Syariah_Indonesia.svg" alt="BSI" />
+          </div>
+          <div class="account-info">
+            <div class="account-name">Bank Syariah Indonesia</div>
+            <div class="account-number">9805518250</div>
+            <div class="copy-hint">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                />
+              </svg>
+              Tap untuk copy
             </div>
+          </div>
+          <svg class="action-icon copy-icon-action" viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+            />
+          </svg>
         </div>
-        <div class="account-block" onclick="copyToClipboard('081325462569', 'Wallet')">
-            <img src="img\Logo_Gopay.svg" alt="E-Wallet Logo">
-            <div class="account-info">
-                <p>Gopay/Shopeepay/Dana</p>
-                <p id="gopay-account">081325462569</p>
+
+        <div
+          class="account-item copyable"
+          onclick="copyToClipboard('081325462569', 'E-Wallet')"
+        >
+          <div class="account-icon">
+            <img src="img/Logo_Gopay.svg" alt="E-Wallet" />
+          </div>
+          <div class="account-info">
+            <div class="account-name">GoPay • ShopeePay • DANA</div>
+            <div class="account-number">081325462569</div>
+            <div class="copy-hint">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                />
+              </svg>
+              Tap untuk copy
             </div>
+          </div>
+          <svg class="action-icon copy-icon-action" viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+            />
+          </svg>
         </div>
-        <div class="footer">
-            <p>Created by <a href="#">Feza</a></p>
-        </div>
+      </div>
+
+      <div class="footer">Created by Feza 2025</div>
     </div>
 
-    <!-- Modal QRIS -->
+    <!-- QRIS Modal -->
     <div id="qrisModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeQRIS()">&times;</span>
-            <h2 class="text-center mb-3">QRIS Feza</h2>
-            <img src="qris zetttt.jpg" alt="QRIS Code" class="qris-image">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">QRIS Payment</div>
+          <button class="close" onclick="closeQRIS()">&times;</button>
         </div>
+        <img
+          src="qris zetttt.jpg"
+          alt="QRIS Code"
+          class="qris-image"
+          id="qrisImage"
+        />
+        <div class="modal-actions">
+          <button class="btn btn-secondary" onclick="downloadQRIS()">
+            <svg class="copy-icon" viewBox="0 0 24 24">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+            </svg>
+            Download
+          </button>
+          <button class="btn" onclick="closeQRIS()">Close</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Tambahkan SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Modal QRIS functions
-        function showQRIS() {
-            document.getElementById('qrisModal').style.display = 'block';
-        }
-        
-        function closeQRIS() {
-            document.getElementById('qrisModal').style.display = 'none';
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('qrisModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
+      function showQRIS() {
+        document.getElementById("qrisModal").style.display = "block";
+      }
+
+      function closeQRIS() {
+        document.getElementById("qrisModal").style.display = "none";
+      }
+
+      function downloadQRIS() {
+        const link = document.createElement("a");
+        link.href = "qris zetttt.jpg";
+        link.download = "QRIS-Feza.jpg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showToast("QRIS berhasil didownload!", "success");
+      }
+
+      function copyToClipboard(number, bank) {
+        navigator.clipboard
+          .writeText(number)
+          .then(() => {
+            showToast(`${bank} ${number} berhasil disalin!`, "success");
+          })
+          .catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = number;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            showToast(`${bank} ${number} berhasil disalin!`, "success");
+          });
+      }
+
+      function showToast(message, type = "default") {
+        // Remove existing toast
+        const existingToast = document.querySelector(".toast");
+        if (existingToast) {
+          existingToast.remove();
         }
 
-        function copyToClipboard(number, bank) {
-            navigator.clipboard.writeText(number).then(() => {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: `Nomor rekening ${bank} berhasil disalin: ${number}`,
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false,
-                    position: 'top',
-                    toast: true
-                });
-            }).catch(() => {
-                Swal.fire({
-                    title: 'Gagal!',
-                    text: 'Tidak dapat menyalin nomor rekening',
-                    icon: 'error',
-                    timer: 2000,
-                    showConfirmButton: false,
-                    position: 'top',
-                    toast: true
-                });
-            });
+        // Create new toast
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+
+        // Add icon based on type
+        const icon =
+          type === "success"
+            ? `<svg class="copy-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`
+            : `<svg class="copy-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
+
+        toast.innerHTML = `${icon}${message}`;
+        document.body.appendChild(toast);
+
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function (event) {
+        const modal = document.getElementById("qrisModal");
+        if (event.target === modal) {
+          closeQRIS();
         }
+      };
+
+      // Close modal with escape key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          closeQRIS();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
