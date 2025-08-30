@@ -113,10 +113,10 @@ async function generateQRIS() {
   showModalStep("loadingStep");
 
   try {
-    // Convert static QRIS to dynamic QRIS manually
+    // konversi static qris ke dynamic qris
     const dynamicQRISString = convertQRISToDynamic(QRIS_STATIC, numericAmount);
 
-    // Use online QR generator API
+    // online qr generator
     const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(
       dynamicQRISString
     )}`;
@@ -125,7 +125,7 @@ async function generateQRIS() {
     qrisImageElement.src = qrApiUrl;
     qrisImageElement.classList.add("dynamic");
 
-    // Store for download
+    // simpan untuk download
     currentQRISData = {
       dataUrl: qrApiUrl,
       amount: numericAmount,
@@ -133,7 +133,7 @@ async function generateQRIS() {
       qrisString: dynamicQRISString,
     };
 
-    // Show success message
+    // tampilkan pesan sukses
     document.getElementById(
       "statusMessage"
     ).innerHTML = `<div class="success-message">
@@ -149,33 +149,33 @@ async function generateQRIS() {
   } catch (error) {
     console.error("QRIS Generation Error:", error);
 
-    // Fallback to static QRIS
+    // fallback ke dinamis qris
     const qrisImageElement = document.getElementById("qrisImage");
     qrisImageElement.src = "qris zetttt.jpg";
     qrisImageElement.classList.remove("dynamic");
 
-    // Store static for download
+    // simpan untuk download
     currentQRISData = {
       dataUrl: "qris zetttt.jpg",
       amount: numericAmount,
       type: "static",
     };
 
-    // Show error message but continue with static
+    // tampilkan pesan error
     document.getElementById(
       "statusMessage"
-    ).innerHTML = `<div class="error-message">⚠️ Gagal membuat QRIS dinamis. Menampilkan QRIS statis sebagai alternatif.</div>`;
+    ).innerHTML = `<div class="error-message">⚠️ Gagal membuat QRIS statis. Menampilkan QRIS dinamis sebagai alternatif.</div>`;
 
-    showToast("Gagal membuat QRIS dinamis, pakai QRIS statis dulu ya", "error");
+    showToast("Gagal membuat QRIS statis, pakai QRIS dinamis dulu ya", "error");
   }
 
-  // Show result step
+  // tampilkan step hasil
   showModalStep("resultStep");
 }
 
 async function downloadQRIS() {
   if (!currentQRISData) {
-    // Fallback to static download
+    // fallback ke dinamis
     const link = document.createElement("a");
     link.href = "qris zetttt.jpg";
     link.download = "QRIS-Feza.jpg";
@@ -188,17 +188,17 @@ async function downloadQRIS() {
 
   if (currentQRISData.type === "dynamic") {
     try {
-      // Show loading toast
+      // tampilkan pesan loading
       showToast("Sedang menyiapkan download...", "default");
 
-      // Fetch image dari API dan convert ke blob
+      // fetch image dari API dan convert ke blob
       const response = await fetch(currentQRISData.dataUrl);
       const blob = await response.blob();
 
-      // Create object URL from blob
+      // buat object URL dari blob
       const objectUrl = URL.createObjectURL(blob);
 
-      // Download image
+      // download image
       const link = document.createElement("a");
       link.href = objectUrl;
       link.download = `QRIS-Feza-Rp${parseInt(
@@ -208,7 +208,7 @@ async function downloadQRIS() {
       link.click();
       document.body.removeChild(link);
 
-      // Cleanup object URL
+      // hapus object URL
       URL.revokeObjectURL(objectUrl);
 
       showToast(
@@ -222,7 +222,7 @@ async function downloadQRIS() {
       showToast("Gagal download QRIS, coba lagi ya", "error");
     }
   } else {
-    // Download static QRIS
+    // download static qris
     const link = document.createElement("a");
     link.href = "qris zetttt.jpg";
     link.download = "QRIS-Feza.jpg";
@@ -240,7 +240,7 @@ function copyToClipboard(number, bank) {
       showToast(`${bank} ${number} berhasil disalin!`, "success");
     })
     .catch(() => {
-      // Fallback for older browsers
+      // fallback untuk browser lama
       const textArea = document.createElement("textarea");
       textArea.value = number;
       document.body.appendChild(textArea);
@@ -252,17 +252,17 @@ function copyToClipboard(number, bank) {
 }
 
 function showToast(message, type = "default") {
-  // Remove existing toast
+  // hapus toast yang sudah ada
   const existingToast = document.querySelector(".toast");
   if (existingToast) {
     existingToast.remove();
   }
 
-  // Create new toast
+  // buat toast baru
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
 
-  // Add icon based on type
+  // tambahkan icon berdasarkan type
   let icon;
   if (type === "success") {
     icon = `<svg class="copy-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
@@ -275,26 +275,26 @@ function showToast(message, type = "default") {
   toast.innerHTML = `${icon}${message}`;
   document.body.appendChild(toast);
 
-  // Remove toast after 3 seconds
+  // hapus toast setelah 3 detik
   setTimeout(() => {
     toast.remove();
   }, 3000);
 }
 
-// Format number with thousand separators
+// format number dengan ribuan
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-// Parse formatted number to numeric value
+// parse formatted number ke numeric value
 function parseFormattedNumber(formatted) {
   return parseInt(formatted.replace(/\./g, ""));
 }
 
-// Format input value in real-time
+// format input value ke real-time
 function formatAmountInput(input) {
-  let value = input.value.replace(/\./g, ""); // Remove existing dots
-  value = value.replace(/[^0-9]/g, ""); // Keep only numbers
+  let value = input.value.replace(/\./g, ""); // hapus titik yang sudah ada
+  value = value.replace(/[^0-9]/g, ""); // hanya angka
 
   if (value) {
     input.value = formatNumber(value);
@@ -303,24 +303,24 @@ function formatAmountInput(input) {
   }
 }
 
-// Enter key support and input formatting
+// enter key support dan format input
 document.addEventListener("DOMContentLoaded", function () {
   const amountInput = document.getElementById("amountInput");
   if (amountInput) {
-    // Format on input
+    // format di input
     amountInput.addEventListener("input", function (e) {
       formatAmountInput(e.target);
     });
 
-    // Prevent non-numeric input
+    // hanya angka
     amountInput.addEventListener("keypress", function (e) {
-      // Allow Enter for submit
+      // allow enter untuk submit
       if (e.key === "Enter") {
         generateQRIS();
         return;
       }
 
-      // Allow only numbers
+      // hanya angka
       if (
         !/[0-9]/.test(e.key) &&
         !["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(e.key)
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Handle paste
+    // paste
     amountInput.addEventListener("paste", function (e) {
       e.preventDefault();
       const paste = (e.clipboardData || window.clipboardData).getData("text");
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Close modal when clicking outside
+// close modal ketika klik di luar
 window.onclick = function (event) {
   const modal = document.getElementById("qrisModal");
   if (event.target === modal) {
@@ -349,7 +349,7 @@ window.onclick = function (event) {
   }
 };
 
-// Close modal with escape key
+// close modal ketika tekan escape
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     closeQRIS();

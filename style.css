@@ -417,7 +417,7 @@ body {
   display: block;
 }
 
-/* Error state */
+/* error state */
 .error-message {
   background: #f8f8f8;
   color: #111111;
@@ -443,7 +443,7 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* Amount input styling */
+/* input nominal styling */
 .amount-input-wrapper {
   position: relative;
 }
@@ -463,7 +463,7 @@ body {
   padding-left: 48px;
 }
 
-/* Responsive adjustments */
+/* responsive adjustments */
 @media (max-width: 480px) {
   body {
     padding: 24px 16px;
