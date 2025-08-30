@@ -1,0 +1,498 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #ffffff;
+  min-height: 100vh;
+  padding: 32px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111111;
+  line-height: 1.5;
+}
+
+.container {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.header .subtitle {
+  background: #f8f8f8;
+  color: #666666;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.account-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid #e5e5e5;
+  position: relative;
+}
+
+.account-item:hover {
+  border-color: #111111;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.account-item:active {
+  transform: scale(0.98);
+}
+
+.account-icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+}
+
+.account-icon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.account-info {
+  flex: 1;
+}
+
+.account-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.account-number {
+  font-size: 14px;
+  color: #666666;
+  font-family: "Inter", Monaco, monospace;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.copy-hint {
+  font-size: 12px;
+  color: #999999;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.qris-hint {
+  color: #111111;
+}
+
+.action-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 12px;
+  opacity: 0.4;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.account-item:hover .action-icon {
+  opacity: 1;
+}
+
+.copy-icon-action {
+  fill: #111111;
+}
+
+.qr-icon-action {
+  fill: #111111;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: #999999;
+  font-weight: 500;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  background: #ffffff;
+  margin: 10% auto;
+  padding: 32px;
+  width: 90%;
+  max-width: 380px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  position: relative;
+  animation: modalSlide 0.2s ease;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.02em;
+}
+
+.close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666666;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.close:hover {
+  background: #f8f8f8;
+  color: #111111;
+}
+
+.qris-image {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  background: #f8f8f8;
+  border: 1px solid #e5e5e5;
+}
+
+.qris-image.dynamic {
+  border: 2px solid #111111;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  background: #111111;
+  color: #ffffff;
+  border: 1px solid #111111;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+}
+
+.btn:hover {
+  background: #333333;
+  border-color: #333333;
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid #e5e5e5;
+}
+
+.btn-secondary:hover {
+  background: #f8f8f8;
+  border-color: #111111;
+}
+
+@keyframes modalSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111111;
+  color: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 2000;
+  animation: toastSlide 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #333333;
+  font-family: "Inter", sans-serif;
+}
+
+.toast.success {
+  background: #111111;
+  color: #ffffff;
+}
+
+.toast.error {
+  background: #111111;
+  color: #ffffff;
+}
+
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #111111;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.1);
+}
+
+.form-input::placeholder {
+  color: #999999;
+  font-weight: 400;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #e5e5e5;
+  border-top: 2px solid #111111;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: #666666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Modal content states */
+.modal-step {
+  display: none;
+}
+
+.modal-step.active {
+  display: block;
+}
+
+/* Error state */
+.error-message {
+  background: #f8f8f8;
+  color: #111111;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid #e5e5e5;
+  font-family: "Inter", sans-serif;
+}
+
+/* Success message */
+.success-message {
+  background: #f8f8f8;
+  color: #111111;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid #e5e5e5;
+  font-family: "Inter", sans-serif;
+}
+
+/* Amount input styling */
+.amount-input-wrapper {
+  position: relative;
+}
+
+.amount-prefix {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666666;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+}
+
+.amount-input {
+  padding-left: 48px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  body {
+    padding: 24px 16px;
+  }
+
+  .container {
+    padding: 24px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .modal-content {
+    margin: 15% auto;
+    padding: 24px;
+  }
+
+  .account-item {
+    padding: 16px;
+  }
+
+  .account-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .account-icon img {
+    width: 28px;
+    height: 28px;
+  }
+}
