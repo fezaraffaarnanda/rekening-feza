@@ -173,7 +173,7 @@ async function generateQRIS() {
   showModalStep("resultStep");
 }
 
-function downloadQRIS() {
+async function downloadQRIS() {
   if (!currentQRISData) {
     // Fallback to static download
     const link = document.createElement("a");
@@ -187,21 +187,40 @@ function downloadQRIS() {
   }
 
   if (currentQRISData.type === "dynamic") {
-    // Download dynamic QRIS (base64)
-    const link = document.createElement("a");
-    link.href = currentQRISData.dataUrl;
-    link.download = `QRIS-Feza-Rp${parseInt(
-      currentQRISData.amount
-    ).toLocaleString("id-ID")}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    showToast(
-      `QRIS dinamis Rp ${parseInt(currentQRISData.amount).toLocaleString(
-        "id-ID"
-      )} berhasil didownload!`,
-      "success"
-    );
+    try {
+      // Show loading toast
+      showToast("Sedang menyiapkan download...", "default");
+
+      // Fetch image dari API dan convert ke blob
+      const response = await fetch(currentQRISData.dataUrl);
+      const blob = await response.blob();
+
+      // Create object URL from blob
+      const objectUrl = URL.createObjectURL(blob);
+
+      // Download image
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = `QRIS-Feza-Rp${parseInt(
+        currentQRISData.amount
+      ).toLocaleString("id-ID")}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Cleanup object URL
+      URL.revokeObjectURL(objectUrl);
+
+      showToast(
+        `QRIS Rp ${parseInt(currentQRISData.amount).toLocaleString(
+          "id-ID"
+        )} berhasil didownload!`,
+        "success"
+      );
+    } catch (error) {
+      console.error("Download error:", error);
+      showToast("Gagal download QRIS, coba lagi ya", "error");
+    }
   } else {
     // Download static QRIS
     const link = document.createElement("a");
