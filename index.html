@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,206 +7,159 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
-      <div class="header">
+      <div class="header fade-in">
+        <div class="logo-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M3 9h18M9 3v18" />
+          </svg>
+        </div>
         <h1>Rekening Feza</h1>
-        <div class="subtitle">
-          <svg class="copy-icon" viewBox="0 0 24 24">
-            <path
-              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-            />
-          </svg>
-          Ketuk untuk copy
+        <p class="subtitle">Pilih metode pembayaran Anda</p>
+      </div>
+
+      <div class="payment-grid">
+        <!-- QRIS Card -->
+        <div class="payment-card fade-in" style="animation-delay: 0.1s" onclick="showQRIS()">
+          <div class="card-header">
+            <div class="icon-wrapper qris-icon-bg">
+              <img src="img/Logo_QRIS.svg" alt="QRIS" />
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">QRIS Payment</h3>
+              <p class="card-subtitle">Scan & Bayar</p>
+            </div>
+          </div>
+          <button class="action-btn qris-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+            Lihat QR
+          </button>
+        </div>
+
+        <!-- BCA Card -->
+        <div class="payment-card fade-in" style="animation-delay: 0.2s" onclick="copyToClipboard('0471904731', 'BCA')">
+          <div class="card-header">
+            <div class="icon-wrapper bca-icon-bg">
+              <img src="img/Bank_Central_Asia.svg" alt="BCA" />
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Bank Central Asia</h3>
+              <p class="card-subtitle">0471904731</p>
+            </div>
+          </div>
+          <button class="action-btn copy-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            Salin
+          </button>
+        </div>
+
+        <!-- BSI Card -->
+        <div class="payment-card fade-in" style="animation-delay: 0.3s" onclick="copyToClipboard('9805518250', 'BSI')">
+          <div class="card-header">
+            <div class="icon-wrapper bsi-icon-bg">
+              <img src="img/Bank_Syariah_Indonesia.svg" alt="BSI" />
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Bank Syariah Indonesia</h3>
+              <p class="card-subtitle">9805518250</p>
+            </div>
+          </div>
+          <button class="action-btn copy-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            Salin
+          </button>
+        </div>
+
+        <!-- E-Wallet Card -->
+        <div class="payment-card fade-in" style="animation-delay: 0.4s" onclick="copyToClipboard('081325462569', 'E-Wallet')">
+          <div class="card-header">
+            <div class="icon-wrapper wallet-icon-bg">
+              <img src="img/Logo_Gopay.svg" alt="E-Wallet" />
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">GoPay • ShopeePay • DANA</h3>
+              <p class="card-subtitle">081325462569</p>
+            </div>
+          </div>
+          <button class="action-btn copy-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            Salin
+          </button>
         </div>
       </div>
 
-      <div class="account-list">
-        <div class="account-item qris-item" onclick="showQRIS()">
-          <div class="account-icon">
-            <img src="img/Logo_QRIS.svg" alt="QRIS" />
-          </div>
-          <div class="account-info">
-            <div class="account-name">QRIS Payment</div>
-            <div class="account-number">Buat QR Code (nominal dinamis)</div>
-            <div class="copy-hint qris-hint">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path
-                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                />
-              </svg>
-              Ketuk untuk buat
-            </div>
-          </div>
-          <svg class="action-icon qr-icon-action" viewBox="0 0 24 24">
-            <path
-              d="M3 11h8V3H3v8zm2-6h4v4H5V5zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4z"
-            />
-            <path
-              d="M18 13h-2v2h2v-2zM20 15h-2v2h2v-2zM16 15h-2v2h2v-2zM18 17h-2v2h2v-2zM20 19h-2v2h2v-2z"
-            />
-          </svg>
-        </div>
-
-        <div
-          class="account-item copyable"
-          onclick="copyToClipboard('0471904731', 'BCA')"
-        >
-          <div class="account-icon">
-            <img src="img/Bank_Central_Asia.svg" alt="BCA" />
-          </div>
-          <div class="account-info">
-            <div class="account-name">Bank Central Asia</div>
-            <div class="account-number">0471904731</div>
-            <div class="copy-hint">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                />
-              </svg>
-              Salin
-            </div>
-          </div>
-          <svg class="action-icon copy-icon-action" viewBox="0 0 24 24">
-            <path
-              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-            />
-          </svg>
-        </div>
-
-        <div
-          class="account-item copyable"
-          onclick="copyToClipboard('9805518250', 'BSI')"
-        >
-          <div class="account-icon">
-            <img src="img/Bank_Syariah_Indonesia.svg" alt="BSI" />
-          </div>
-          <div class="account-info">
-            <div class="account-name">Bank Syariah Indonesia</div>
-            <div class="account-number">9805518250</div>
-            <div class="copy-hint">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                />
-              </svg>
-              Salin
-            </div>
-          </div>
-          <svg class="action-icon copy-icon-action" viewBox="0 0 24 24">
-            <path
-              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-            />
-          </svg>
-        </div>
-
-        <div
-          class="account-item copyable"
-          onclick="copyToClipboard('081325462569', 'E-Wallet')"
-        >
-          <div class="account-icon">
-            <img src="img/Logo_Gopay.svg" alt="E-Wallet" />
-          </div>
-          <div class="account-info">
-            <div class="account-name">GoPay • ShopeePay • DANA</div>
-            <div class="account-number">081325462569</div>
-            <div class="copy-hint">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                />
-              </svg>
-              Salin
-            </div>
-          </div>
-          <svg class="action-icon copy-icon-action" viewBox="0 0 24 24">
-            <path
-              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-            />
-          </svg>
-        </div>
+      <div class="footer fade-in" style="animation-delay: 0.5s">
+        <p>© 2025 Feza. Semua hak dilindungi.</p>
       </div>
-
-      <div class="footer">Feza • 2025</div>
     </div>
 
-    <!-- modal qris -->
+    <!-- Modal QRIS -->
     <div id="qrisModal" class="modal">
-      <div class="modal-content">
+      <div class="modal-backdrop" onclick="closeQRIS()"></div>
+      <div class="modal-content fade-in">
         <div class="modal-header">
-          <div class="modal-title">Buat QRIS</div>
-          <button class="close" onclick="closeQRIS()">&times;</button>
-        </div>
-
-        <!-- step 1: input form -->
-        <div id="inputStep" class="modal-step active">
-          <div class="form-group">
-            <label class="form-label" for="amountInput">Nominal (Rp)</label>
-            <div class="amount-input-wrapper">
-              <span class="amount-prefix">Rp</span>
-              <input
-                type="text"
-                id="amountInput"
-                class="form-input amount-input"
-                placeholder="10.000"
-                inputmode="numeric"
-                pattern="[0-9]*"
-              />
+          <div class="modal-header-info">
+            <div class="modal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="modal-title">QRIS Payment</h2>
+              <p class="modal-subtitle">Scan untuk melakukan pembayaran</p>
             </div>
           </div>
-          <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeQRIS()">
-              Batal
-            </button>
-            <button class="btn" onclick="generateQRIS()">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path
-                  d="M3 11h8V3H3v8zm2-6h4v4H5V5zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4z"
-                />
-              </svg>
-              Buat QRIS
-            </button>
-          </div>
+          <button class="close-btn" onclick="closeQRIS()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
-        <!-- step 2: loading -->
-        <div id="loadingStep" class="modal-step">
-          <div class="loading">
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Sedang buat QR...</div>
+        <div class="qris-container">
+          <div class="qris-wrapper">
+            <img
+              src="img/qris zetttt.jpg"
+              alt="QRIS Code"
+              class="qris-image"
+              id="qrisImage"
+            />
           </div>
+          <p class="qris-hint">💡 Screenshot layar aja</p>
         </div>
 
-        <!-- step 3: result -->
-        <div id="resultStep" class="modal-step">
-          <div id="statusMessage"></div>
-          <img
-            src="qris zetttt.jpg"
-            alt="QRIS Code"
-            class="qris-image"
-            id="qrisImage"
-          />
-          <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="downloadQRIS()">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
-              </svg>
-              Unduh
-            </button>
-            <button class="btn" onclick="resetQRISModal()">
-              <svg class="copy-icon" viewBox="0 0 24 24">
-                <path
-                  d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
-                />
-              </svg>
-              Buat Lagi
-            </button>
-          </div>
+        <div class="modal-actions">
+          <button class="modal-btn primary-btn" onclick="closeQRIS()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Oke, Siap!
+          </button>
         </div>
       </div>
     </div>
